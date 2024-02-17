@@ -8,6 +8,7 @@ import SuperAdmin from './pages/SuperAdmin';
 import SAHome from './components/SAHome';
 import EmpLogin from './pages/EmpLogin';
 import ForgotPassword from './pages/ForgotPassword'
+import EmpForgotPassword from './pages/EmpForgotPassword'
 import VerifyEmployee from './components/VerifyEmployee';
 import EmpRegister from './pages/EmpRegister';
 import EmpHome from './pages/EmpHome';
@@ -30,7 +31,8 @@ function App() {
           <Route path="/empLogin" element={<EmpLogin />} />
           <Route path="/empHome/*" element={<EmpHome />} />
           <Route path="/empRegister" element={<EmpRegister />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} /> 
+          <Route path="/empForgotPassword" element={<EmpForgotPassword />} /> 
           <Route path="/SAHome/*" element={<SAHome />} ></Route>
           <Route path="/verifyEmployee/:token/:id" element={<VerifyEmployee />}></Route>
         </Routes>

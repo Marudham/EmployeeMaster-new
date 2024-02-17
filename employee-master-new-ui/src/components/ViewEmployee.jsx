@@ -81,6 +81,7 @@ export default function ViewEmployee({ commonMessage, setCommonMessage }) {
           <label>Supervisor:</label> <span>{employee.supervisor}</span>
           <label>Project:</label> <span>{employee.project}</span>
           <label>Status:</label> <span>{employee.status}</span>
+          <label>Approved By:</label> <span>{employee.approvedByAdmin.username}</span>
         </div>
       )}
       <div className="employee-details-button-container">

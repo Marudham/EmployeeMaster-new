@@ -53,7 +53,7 @@ export default function EmpLogin() {
               onChange={(e) => setPassword(e.target.value)}
               required
           />
-          <Link className='forgot-password-link' to={"/forgotPassword"}>
+          <Link className='forgot-password-link' to={"/empForgotPassword"}>
               Forgot Password ?
           </Link>
           <input type="submit" value="Login" className='login-submit' />

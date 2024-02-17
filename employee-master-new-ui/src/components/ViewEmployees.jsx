@@ -123,6 +123,7 @@ export default function ViewEmployees({ commonMessage, setCommonMessage }) {
                 <label htmlFor="filterDepartment">Filter Based on:</label>
                 <select name="filterBasedOn" className="form-control" onChange={ (e) => setFilterBasedOn(e.target.value) }>
                   <option value="">-- select --</option>
+                  <option value="approvedByAdmin">Approved By Admin</option>
                   <option value="firstName">First Name</option>
                   <option value="secondName">Second Name</option>
                   <option value="email">Email</option>

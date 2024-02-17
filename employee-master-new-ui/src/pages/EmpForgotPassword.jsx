@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from'axios'
 
-export default function ForgotPassword() {
+export default function EmpForgotPassword() {
 
   const [ email, setEmail ] = useState('');
   const [ loading, setLoading ] = useState(false)
@@ -11,7 +11,7 @@ export default function ForgotPassword() {
     setLoading(true)
         e.preventDefault();
        try{
-        const response = await axios.post("http://localhost:8080/ems/controller/forgotPassword",{ email, role: 'admin' });
+        const response = await axios.post("http://localhost:8080/ems/controller/forgotPassword",{ email, role: 'employee' });
         if(response.data.status === 'success'){
             document.getElementById("message").innerHTML = "Reset Password Link send successfully";
         }
