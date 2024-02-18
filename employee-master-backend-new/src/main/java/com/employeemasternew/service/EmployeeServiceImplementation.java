@@ -117,6 +117,8 @@ public class EmployeeServiceImplementation implements EmployeeService{
 		List<Employee> employees = new ArrayList<>();
 		List<Employee> filteredEmployees = new ArrayList<>();
 		switch(filterBasedOn) {
+		case "approvedByAdmin" :	employees = employeeRepo.findAllByApprovedByAdminUsername(filterValue);
+		break;
 		case "firstName" :	employees = employeeRepo.findAllByFirstName(filterValue);
 		break;
 		case "secondName" :	employees = employeeRepo.findAllBySecondName(filterValue);

@@ -13,22 +13,30 @@ public class ForgotPassword {
 	private Long id;
 	private String email;
 	private String token;
+	private String role;
 	
 	@Override
 	public String toString() {
-		return "ForgotPassword [id=" + id + ", email=" + email + ", token=" + token + "]";
+		return "ForgotPassword [id=" + id + ", email=" + email + ", token=" + token + ", role=" + role + "]";
 	}
 
 	public ForgotPassword() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public ForgotPassword(Long id, String email, String token) {
+	public ForgotPassword(Long id, String email, String token, String role) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.token = token;
+		this.role = role;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Long getId() {

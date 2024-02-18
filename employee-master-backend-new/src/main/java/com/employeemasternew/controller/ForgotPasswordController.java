@@ -14,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.employeemasternew.entity.Admin;
 import com.employeemasternew.entity.ApiResponse;
+import com.employeemasternew.entity.Employee;
 import com.employeemasternew.entity.ForgotPassword;
 import com.employeemasternew.service.AdminService;
 import com.employeemasternew.service.EmailService;
+import com.employeemasternew.service.EmployeeService;
 import com.employeemasternew.service.ForgotPasswordService;
 import com.employeemasternew.service.PasswordEncryptionService;
 import com.employeemasternew.service.TokenService;
@@ -39,6 +41,9 @@ public class ForgotPasswordController {
 	AdminService adminService;
 	
 	@Autowired
+	EmployeeService employeeService;
+	
+	@Autowired
 	PasswordEncryptionService passwordEncryptionService;
 	
 	ApiResponse response;
@@ -47,22 +52,42 @@ public class ForgotPasswordController {
 	public ResponseEntity<ApiResponse> forgotPassword(@RequestBody ForgotPassword forgotPassword) {
 		response = new ApiResponse();
 		try {
-			if(adminService.isAdminExist(forgotPassword.getEmail())) {
-				forgotPassword.setEmail(forgotPassword.getEmail());
-				forgotPassword.setToken(tokenService.generateUniqueToken());
-				forgotPasswordService.save(forgotPassword);
-				String to = forgotPassword.getEmail();
-				String subject = "Reset Password - EmployeeMaster";
-				String body = "To reset your password,"
-						+ "<br><a href=\"http://localhost:8080/ems/controller/resetPassword?token="+ forgotPassword.getToken()
-						+ "&id=" + forgotPassword.getId() +"\">Click Here.</a>";
-				emailService.sendEmail(to, subject, body);
-				response.setStatus("success");
-				return ResponseEntity.ok(response);
+			if(forgotPassword.getRole().equals("admin")) {
+				if(adminService.isAdminExist(forgotPassword.getEmail())) {
+					forgotPassword.setEmail(forgotPassword.getEmail());
+					forgotPassword.setToken(tokenService.generateUniqueToken());
+					forgotPasswordService.save(forgotPassword);
+					String to = forgotPassword.getEmail();
+					String subject = "Reset Password - EmployeeMaster";
+					String body = "To reset your password,"
+							+ "<br><a href=\"http://localhost:8080/ems/controller/resetPassword?token="+ forgotPassword.getToken()
+							+ "&id=" + forgotPassword.getId() +"\">Click Here.</a>";
+					emailService.sendEmail(to, subject, body);
+					response.setStatus("success");
+					return ResponseEntity.ok(response);
+				}else {
+					response.setStatus("email-not-exist");
+					response.setMessage("Entered Email does not Exist");
+					return ResponseEntity.badRequest().body(response);
+				}
 			}else {
-				response.setStatus("email-not-exist");
-				response.setMessage("Entered Email does not Exist");
-				return ResponseEntity.badRequest().body(response);
+				if(employeeService.isEmployeeExist(forgotPassword.getEmail())) {
+					forgotPassword.setEmail(forgotPassword.getEmail());
+					forgotPassword.setToken(tokenService.generateUniqueToken());
+					forgotPasswordService.save(forgotPassword);
+					String to = forgotPassword.getEmail();
+					String subject = "Reset Password - EmployeeMaster";
+					String body = "To reset your password,"
+							+ "<br><a href=\"http://localhost:8080/ems/controller/resetPassword?token="+ forgotPassword.getToken()
+							+ "&id=" + forgotPassword.getId() +"\">Click Here.</a>";
+					emailService.sendEmail(to, subject, body);
+					response.setStatus("success");
+					return ResponseEntity.ok(response);
+				}else {
+					response.setStatus("email-not-exist");
+					response.setMessage("Entered Email does not Exist");
+					return ResponseEntity.badRequest().body(response);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,6 +97,7 @@ public class ForgotPasswordController {
 		}
 	}
 	
+
 	@GetMapping("/resetPassword")
 	public ModelAndView resetPassword(@RequestParam String token, @RequestParam Long id, Model model) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -98,12 +124,22 @@ public class ForgotPasswordController {
 	    ModelAndView modelAndView = new ModelAndView();
 	    try {
 	        if(password.equals(confirmPassword)) {
-	            Admin admin = adminService.getAdmin(email);
-	            admin.setPassword(passwordEncryptionService.encryptPassword(password));
-	            adminService.updateAdmin(admin);
-	            modelAndView.setViewName("forgotPassword");
-	            modelAndView.addObject("message", "Password has been Reset Successfully.");
-	    	    return modelAndView;
+	            String role = forgotPasswordService.getByEmail(email).getRole();
+	            if(role.equals("admin")) {
+	            	Admin admin = adminService.getAdmin(email);
+		            admin.setPassword(passwordEncryptionService.encryptPassword(password));
+		            adminService.updateAdmin(admin);
+		            modelAndView.setViewName("forgotPassword");
+		            modelAndView.addObject("message", "Password has been Reset Successfully.");
+		    	    return modelAndView;
+	            }else {
+	            	Employee employee = employeeService.getEmployeeByEmail(email);
+		            employee.setPassword(passwordEncryptionService.encryptPassword(password));
+		            employeeService.updateEmployee(employee);
+		            modelAndView.setViewName("forgotPassword");
+		            modelAndView.addObject("message", "Password has been Reset Successfully.");
+		    	    return modelAndView;
+	            }
 	        } else {
 	            modelAndView.setViewName("resetPassword");
 	            modelAndView.addObject("forgotPassword", email);
