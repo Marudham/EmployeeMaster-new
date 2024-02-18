@@ -56,4 +56,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 	List<Employee> findAllByIsApproved(boolean b);
 
+	List<Employee> findAllByApprovedByAdminUsername(String filterValue);
+
 }
