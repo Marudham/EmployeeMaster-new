@@ -4,9 +4,7 @@ import AdminNav from '../components/AdminNav';
 import ViewEmployees from '../components/ViewEmployees';
 import ViewAct from '../components/ViewAct';
 import EmpReq from '../components/EmpReq';
-import AddEmp from '../components/AddEmp';
 import ViewEmployee from '../components/ViewEmployee';
-import EmpUpdate from '../components/EmpUpdate';
 import ViewEmpReg from '../components/ViewEmpReg'
 import ViewRegEmp from '../components/ViewRegEmp'
 import { useSelector } from 'react-redux';
@@ -44,8 +42,6 @@ export default function AdminHome() {
           <Route path='/viewEmp/:empId' element={<ViewEmployee commonMessage={commonMessage} setCommonMessage={setCommonMessage}/>} />
           <Route path='/viewAct' element={<ViewAct commonMessage={commonMessage} setCommonMessage={setCommonMessage} />} />
           <Route path='/empReq' element={<EmpReq commonMessage={commonMessage} setCommonMessage={setCommonMessage}/>} />
-          <Route path='/addEmp' element={<AddEmp commonMessage={commonMessage} setCommonMessage={setCommonMessage}/>} />
-          <Route path='/update/:empId' element={<EmpUpdate commonMessage={commonMessage} setCommonMessage={setCommonMessage} />} />
       </Routes>
     </div>
   )

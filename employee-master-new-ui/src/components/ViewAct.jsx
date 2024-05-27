@@ -15,7 +15,11 @@ export default function ViewAct() {
 
   async function fetchActivity(){
     try {
-      const response = await axios.get("http://localhost:8080/ems/controller/fetchAllActivity");
+      const response = await axios.get("http://localhost:8080/ems/controller/fetchActivity", {
+        params: {
+          id: user.id
+        }
+      });
       if(response.data.status === 'success'){
         setActivities(response.data.adminActivities.reverse())
       }
@@ -66,7 +70,6 @@ export default function ViewAct() {
               <p>Activity: {activity.activity}</p>
               <p>Change Made: {activity.changeMade ? activity.changeMade : 'Null'}</p>
               <p>Timestamp: {formatTimestamp(activity.timestamp)}</p>
-              <p>Admin: {activity.admin?.username}</p>
             </li>
           ))}
         </ul>

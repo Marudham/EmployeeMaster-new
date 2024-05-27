@@ -9,8 +9,8 @@ export default function SAHome() {
 
   return (
     <div className="sa-container">
-    <nav className='sa-nav'>
-      <h1 className='sa-nav-header'>SUPER ADMIN</h1>
+    <nav className='sa-nav sa-nav-nav'>
+      <h1 className='sa-nav-header' style={{color:'white'}}>SUPER ADMIN</h1>
       <ul className='sa-nav-ul'>
         <li className='sa-nav-li'>
           <Link className='sa-nav-link' to={'/SAHome'}>Super Admin Dashboard</Link>
